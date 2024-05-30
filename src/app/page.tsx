@@ -5,10 +5,11 @@ export const revalidate = 30;
 
 export default async function Home() {
     const cachedData = global?.cacheUser?.get('apiAllCoins');
+    const isProd = process.env.NODE_ENV === 'production';
 
     if (cachedData !== undefined) return <Coins initialData={cachedData} />
 
-    const resp = await fetch('http://localhost:3000/api/coins/', { cache: "no-store" });
+    const resp = await fetch(`http${isProd ? 's' : ''}://localhost${isProd ? '' : ':3000'}/api/coins/`, { cache: "no-store" });
     const respResult: JSONResult<JSONCoinType[]> = await resp.json();
     
     if (respResult.status === 'error') {

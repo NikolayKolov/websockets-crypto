@@ -68,7 +68,7 @@ export default function useExchangePairsData({ exchangeId }: ExchangePairsHookPr
     const revalidateSWRonMount = exchangePairs === null;
 
     const fetcher: FetcherFunction = async () => {
-        const resp = await fetch('http://localhost:3000/api/exchangePairs/' + exchangeId, { cache: "no-store" });
+        const resp = await fetch('/api/exchangePairs/' + exchangeId, { cache: "no-store" });
         const respResult: JSONResult<JSONExchangePairType[]> = await resp.json();
         if (respResult.status=== 'error') throw new Error(respResult.error.message)
         else return respResult.data;
