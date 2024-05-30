@@ -1,0 +1,15 @@
+.table p {
+  margin-bottom: 0;
+}
+
+[data-bs-theme=dark] img.sort-arrow {
+  filter: invert(1);
+}
+
+.go-to-page--container {
+  width: 5rem;
+}
+
+.page-number--container {
+  width: 14rem;
+}

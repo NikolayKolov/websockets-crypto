@@ -1,0 +1,12 @@
+@media only screen and (width <= 800px) {
+  .first-item {
+    padding-right: 0px;
+  }
+}
+
+.rowHeight {
+  height: 4.5rem;
+}
+.rowHeight span {
+  height: 2rem;
+}

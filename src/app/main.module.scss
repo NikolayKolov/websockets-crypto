@@ -1,0 +1,6 @@
+@use "public/scss/custom_variables" as vars;
+
+.main {
+    min-height: 100vh;
+    padding-top: vars.$header-height;
+}

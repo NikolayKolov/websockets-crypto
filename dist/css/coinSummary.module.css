@@ -1,0 +1,10 @@
+.firstColumn div span:first-child {
+  min-width: 80px;
+  display: inline-block;
+}
+
+@media screen and (width < 768px) {
+  .justifyCoinCenter {
+    justify-content: center;
+  }
+}

@@ -1,0 +1,45 @@
+.searchBar {
+    height: 2rem;
+    z-index: 3;
+
+    img {
+        top: 6px;
+        right: 6px;
+    }
+
+    div.searchImg {
+        top: 7px;
+        right: 8px;
+    }
+
+    input[type="text"] {
+        padding-left: 22px;
+    }
+
+    input[type="text"].searchFocus {
+        width: 200px;
+        padding-left: 8px;
+    }
+
+    div.search-results {
+        z-index: 3;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        height: 0;
+        max-height: 0;
+        overflow: hidden;
+
+        &.search-results__opened {
+            height: fit-content;
+            max-height: fit-content;
+        }
+    }
+
+    @media screen and (width < 768px) {
+        form {
+            position: absolute;
+        }
+    }
+}

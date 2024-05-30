@@ -1,0 +1,44 @@
+.coin-title {
+  line-height: 1.125rem;
+}
+
+.coin-subtitle {
+  font-size: 0.75rem;
+}
+
+.flash__red td {
+  animation-name: flashred;
+  animation-timing-function: linear;
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+}
+
+.flash__green td {
+  animation-name: flashgreen;
+  animation-timing-function: linear;
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+}
+
+@keyframes flashred {
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: red;
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+@keyframes flashgreen {
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: green;
+  }
+  100% {
+    background-color: transparent;
+  }
+}

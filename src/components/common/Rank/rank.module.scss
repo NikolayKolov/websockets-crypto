@@ -1,0 +1,16 @@
+.rankContainer {
+    position: relative;
+    width: auto;
+    max-height: 100px;
+
+    &::before {
+        content: '';
+        width: calc(100% + 20px);
+        height: 10px;
+        background: inherit;
+        position: absolute;
+        left: -10px;
+        top: 0px;
+        border-radius: 8px;
+    }
+}

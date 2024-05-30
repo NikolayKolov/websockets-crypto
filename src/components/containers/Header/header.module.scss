@@ -1,0 +1,54 @@
+@use "public/scss/custom_variables" as vars;
+
+.header {
+    height: vars.$header-height;
+
+    input[type="text"] {
+        max-width: 200px;
+        width: 32px;
+        transition: all 0.2s;
+
+        &::placeholder {
+            padding-left: 24px;
+        }
+
+        &:focus,
+        &:focus-within {
+            width: 200px;
+
+            &::placeholder {
+                padding-left: 0px;
+            }
+        }
+    }
+}
+
+.searchBar {
+    height: 2rem;
+    z-index: 3;
+
+    img {
+        top: 6px;
+        right: 6px;
+        z-index: 2;
+    }
+
+    input[type="text"] input[type="text"]:focus,
+    input[type="text"]:focus-within {
+        width: 200px;
+    }
+}
+
+html[data-bs-theme="dark"] {
+
+    .header,
+    .offcanvas {
+        img {
+            filter: invert(1);
+        }
+    }
+
+    .offcanvas {
+        max-width: 400px;
+    }
+}
