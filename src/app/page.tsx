@@ -9,7 +9,7 @@ export default async function Home() {
 
     if (cachedData !== undefined) return <Coins initialData={cachedData} />
 
-    const resp = await fetch(`http${isProd ? 's' : ''}://localhost${isProd ? '' : ':3000'}/api/coins/`, { cache: "no-store" });
+    const resp = await fetch(`${isProd ? process.env.API_VERCEL_URL : 'http://localhost:3000'}/api/coins/`, { cache: "no-store" });
     const respResult: JSONResult<JSONCoinType[]> = await resp.json();
     
     if (respResult.status === 'error') {
