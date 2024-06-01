@@ -8,6 +8,7 @@ import CoinsDataTableSubRow from './components/CoinsDataTableSubRow';
 import { CoinType } from '@/lib/types/tableTypes';
 import { formatCurrencyDynamicFractions, formatNumber, formatPercentage } from '../utils/numberFormatter';
 import IconImageFallback from '@/components/common/IconImageFallback';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
 
 import styles from './coinsTable.module.scss';
 
@@ -270,7 +271,9 @@ export default function CoinsDataTable({data}: {data: Array<CoinType>}) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const handlePaginationChange = () => {
+    const { storedValue, setValue } = useLocalStorage<any | undefined>('coinsViewData', undefined);
+
+    const handlePaginationChange = (props: any) => {
         const coinPricesPElems = document.querySelectorAll("p[id^='coin-price-']");
         const coinIDs: string[] = [];
         coinPricesPElems.forEach((el) => {
@@ -283,6 +286,11 @@ export default function CoinsDataTable({data}: {data: Array<CoinType>}) {
         webSocketUrlRef.current = urlSocket;
         webSocketCleanUp();
         webSocketCreate(urlSocket);
+
+        if (props !== undefined) {
+            const { pIndex, pSize, sortedColumn } = props;
+            setValue({ pIndex, pSize, sortedColumn });
+        }
     }
 
     const renderSubComponent = ({ row }: { row: Row<CoinType> }) => {
@@ -294,6 +302,7 @@ export default function CoinsDataTable({data}: {data: Array<CoinType>}) {
             data={data}
             columns={columns}
             onPaginationChange={handlePaginationChange}
+            initialPaginationState={storedValue}
             getRowCanExpand={() => true}
             renderSubComponent={renderSubComponent} />
     )

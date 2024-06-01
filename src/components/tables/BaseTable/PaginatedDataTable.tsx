@@ -25,13 +25,14 @@ import useWindowSize from '@/hooks/useWindowSize';
 type PaginatedDataTableProps<T> = {
     data: Array<T>,
     columns: ColumnDef<T, any>[],
-    onPaginationChange?: () => void,
+    onPaginationChange?: (props?: any) => void,
+    initialPaginationState?: { pIndex: number, pSize: number, sortedColumn: { id: string, desc: boolean} },
     getRowCanExpand?: () => boolean,
     renderSubComponent?: (props: { row: Row<T> }) => React.ReactElement
 }
 
 export default function PaginatedDataTable<T extends object>(props: PaginatedDataTableProps<T>) {
-    const { data, columns, onPaginationChange, getRowCanExpand, renderSubComponent } = props;
+    const { data, columns, onPaginationChange, initialPaginationState, getRowCanExpand, renderSubComponent } = props;
 
     const [tableData, setTableData] = useState(data);
 
@@ -40,9 +41,12 @@ export default function PaginatedDataTable<T extends object>(props: PaginatedDat
         setTableData(data)
     }
 
-    const [pagination, setPagination] = useState<PaginationState>({
-        pageIndex: 0,
-        pageSize: 15,
+    const [pagination, setPagination] = useState<PaginationState>(() => {
+        if (initialPaginationState !== undefined) return {
+            pageIndex: initialPaginationState?.pIndex ?? 0,
+            pageSize: initialPaginationState?.pSize ?? 15
+        };
+        else return { pageIndex: 0, pageSize: 15 };
     });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -70,8 +74,8 @@ export default function PaginatedDataTable<T extends object>(props: PaginatedDat
         initialState: {
             sorting: [
                 {
-                    id: 'rank',
-                    desc: false,
+                    id: initialPaginationState?.sortedColumn?.id ?? 'rank',
+                    desc: initialPaginationState?.sortedColumn?.desc ?? false,
                 },
             ]
         },
@@ -82,17 +86,16 @@ export default function PaginatedDataTable<T extends object>(props: PaginatedDat
 
     const pIndex = table.getState().pagination.pageIndex;
     const pSize = table.getState().pagination.pageSize;
-
-    useEffect(() => {
-        onPaginationChange && onPaginationChange();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [pIndex, pSize]);
-
     const sortedColumn = table.getState().sorting[0];
+
     useEffect(() => {
-        onPaginationChange && onPaginationChange();
+        onPaginationChange && onPaginationChange({
+            pIndex,
+            pSize,
+            sortedColumn
+        });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [sortedColumn]);
+    }, [pIndex, pSize, sortedColumn]);
 
     const { windowWidth } = useWindowSize();
 

@@ -6,6 +6,7 @@ import PaginatedDataTable from './BaseTable/PaginatedDataTable';
 import { JSONExchangeType } from '@/lib/types/genericAPIResponse';
 import { formatCurrencyDynamicFractions, formatPercentage } from './utils/numberFormatter';
 import useSWR from 'swr';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
 
 import { ColumnDef } from '@tanstack/react-table';
 import { fetchExchanges } from '@/lib/fetch';
@@ -155,7 +156,20 @@ export default function ExchangesDataTable({data}: {data: Array<JSONExchangeType
         }
     ], []);
 
+    const { storedValue, setValue } = useLocalStorage<any | undefined>('exchangesViewData', undefined);
+    
+    const handlePaginationChange = (props: any) => {
+        if (props !== undefined) {
+            const { pIndex, pSize, sortedColumn } = props;
+            setValue({ pIndex, pSize, sortedColumn });
+        }
+    }
+
     return (
-        <PaginatedDataTable data={tableData} columns={columns} />
+        <PaginatedDataTable
+            data={tableData}
+            columns={columns}
+            onPaginationChange={handlePaginationChange}
+            initialPaginationState={storedValue} />
     )
 }
