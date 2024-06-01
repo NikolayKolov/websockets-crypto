@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -8,7 +9,18 @@ import { fetchCoinDetail } from "@/lib/fetch";
 import { formatCurrencyDynamicFractions, formatPercentage, formatNumber } from '@/components/tables/utils/numberFormatter';
 import CoinViewDetail from './CoinViewDetails';
 
-export default async function CoinView({ params }: { params: {coinId: string}}) {
+export async function generateMetadata({ params }: { params: { coinId: string }}) {
+    const { coinId } = params;
+    const coinDetails = await fetchCoinDetail(coinId);
+    if (coinDetails.status === 'error') throw new Error(coinDetails.error.message);
+    const coinData = coinDetails.data;
+
+    return {
+        title: `${coinData.name} (${coinData.symbol})`
+    };
+}
+
+export default async function CoinView({ params }: { params: { coinId: string }}) {
     const { coinId } = params;
     const coinDetails = await fetchCoinDetail(coinId);
     if (coinDetails.status === 'error') throw new Error(coinDetails.error.message);

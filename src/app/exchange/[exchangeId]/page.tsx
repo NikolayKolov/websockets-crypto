@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -20,15 +21,23 @@ export default function CoinView({ params }: { params: {exchangeId: string}}) {
     const { isLoading, error, exchangeDetails} = useExchangeData({ exchangeId });
     const { isLoading: isLoadingPairs, isValidating: isValidatingPairs, error: errorPairs, exchangePairs: pairsData } = useExchangePairsData({ exchangeId });
 
-    if (isLoading) return (<CoinDataSkeleton />);
-
-    if (error) throw new Error(error.message);
-    
     let name = '-';
     let pairs = 0;
     let rank = '-';
     let volume = '-';
     let topPair = 'N/A';
+
+    useEffect(() => {
+        if (isLoading) {
+            document.title = 'Loading...';
+        } else {
+            document.title = name;
+        }
+    }, [name, isLoading]);
+
+    if (isLoading) return (<CoinDataSkeleton />);
+
+    if (error) throw new Error(error.message);
 
     if (exchangeDetails !== null) {
         name = exchangeDetails.name;

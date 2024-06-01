@@ -13,6 +13,7 @@ import { ThemeProvider } from "next-themes";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+    // default title
     title: "CoinView - view crypto and market data",
     description: "A simple crypto app built on the CoinCap API",
 };
